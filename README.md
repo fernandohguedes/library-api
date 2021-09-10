@@ -1,4 +1,4 @@
-# Desafio JAVA
+# Estudo de Caso com linguagem JAVA
 
 - Springboot framework 2.5.4.RELEASE;
 
