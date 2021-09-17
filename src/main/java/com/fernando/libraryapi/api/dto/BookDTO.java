@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,14 +15,13 @@ public class BookDTO {
 
     private Long id;
 
-    @NotNull
+    @NotEmpty
     private String title;
 
-    @NotNull
+    @NotEmpty
     private String author;
 
-    @NotNull
+    @NotEmpty
     private String isbn;
-
 
 }

@@ -2,7 +2,7 @@
 
 - Springboot framework 2.5.4.RELEASE;
 
-- Padrão DTO para transferância de dados:
+- Padrão DTO para transferência de dados:
     - Request;
     - Response;
 
