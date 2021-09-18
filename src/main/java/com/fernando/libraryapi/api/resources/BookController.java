@@ -2,6 +2,7 @@ package com.fernando.libraryapi.api.resources;
 
 import com.fernando.libraryapi.api.dto.BookDTO;
 import com.fernando.libraryapi.api.exceptions.ApiErrors;
+import com.fernando.libraryapi.exception.BusinessException;
 import com.fernando.libraryapi.model.entities.Book;
 import com.fernando.libraryapi.services.BookService;
 import org.modelmapper.ModelMapper;
@@ -38,5 +39,11 @@ public class BookController {
     public ApiErrors handleValidationException(MethodArgumentNotValidException exception) {
         BindingResult bindingResult = exception.getBindingResult();
         return new ApiErrors(bindingResult);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrors businessException(BusinessException exception) {
+        return new ApiErrors(exception);
     }
 }
