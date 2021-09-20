@@ -6,6 +6,8 @@ import com.fernando.libraryapi.model.repositories.BookRepository;
 import com.fernando.libraryapi.services.BookService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -23,6 +25,11 @@ public class BookServiceImpl implements BookService {
 
         book = repository.save(book);
         return book;
+    }
+
+    @Override
+    public Optional<Book> getById(Long id) {
+        return Optional.empty();
     }
 
 }
