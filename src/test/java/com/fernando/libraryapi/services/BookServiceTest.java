@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-public class BookServiceTest {
+class BookServiceTest {
 
     BookService service;
 
@@ -35,7 +35,7 @@ public class BookServiceTest {
 
     @Test
     @DisplayName("Deve salvar um livro")
-    public void saveBooktest() {
+    void saveBooktest() {
         // Arrange
         Book book = createValidBook();
         Book mockedBook = Book.builder().id(1L).author("Fulano").title("Aprenda Spring").isbn("0001").build();
@@ -54,7 +54,7 @@ public class BookServiceTest {
 
     @Test
     @DisplayName("Deve lançar erro de negócio ao tentar salvar um livro com ISBN duplicado")
-    public void souldNotSaveABookWithDuplocatedISBN() {
+    void souldNotSaveABookWithDuplocatedISBN() {
         // Arrange
         Book book = createValidBook();
         when(repository.existsByIsbn(anyString())).thenReturn(true);

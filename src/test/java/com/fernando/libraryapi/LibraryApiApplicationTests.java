@@ -1,5 +1,7 @@
 package com.fernando.libraryapi;
 
+import com.fernando.libraryapi.api.dto.BookDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,6 +10,8 @@ class LibraryApiApplicationTests {
 
 	@Test
 	void contextLoads() {
+		BookDTO dto = new BookDTO();
+		Assertions.assertNotNull(dto);
 	}
 
 }

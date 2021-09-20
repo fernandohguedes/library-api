@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @DataJpaTest
-public class BookRepositoryTest {
+ class BookRepositoryTest {
 
     @Autowired
     TestEntityManager entityManager;
@@ -26,7 +26,7 @@ public class BookRepositoryTest {
 
     @Test
     @DisplayName("Deve retornar verdadeiro quando existir um livro na base com o isbn informado")
-    public void returnTrueWhenIsbnExists() {
+    void returnTrueWhenIsbnExists() {
         // Arrange
         String isbn = "123";
         Book book = Book.builder().author("Fulano").title("Aprenda Spring").isbn(isbn).build();
@@ -41,7 +41,7 @@ public class BookRepositoryTest {
 
     @Test
     @DisplayName("Deve retornar falso quando não existir um livro na base com o isbn informado")
-    public void returnFalseWhenIsbnDoesNotExist() {
+    void returnFalseWhenIsbnDoesNotExist() {
         // Arrange
         String isbn = "123";
 
