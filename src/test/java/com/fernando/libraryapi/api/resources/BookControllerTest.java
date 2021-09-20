@@ -45,7 +45,7 @@ public class BookControllerTest {
 
     @Test
     @DisplayName("Deve criar um livro com sucesso")
-    public void createBookTest() throws Exception {
+    void createBookTest() throws Exception {
         BookDTO book = createBookDTO();
 
         Book savedBook = Book.builder().id(10l).author("José").title("Aprenda Spring").isbn("001").build();
@@ -69,7 +69,7 @@ public class BookControllerTest {
 
     @Test
     @DisplayName("Deve lançar erro de validação ao criar livro")
-    public void createInvalidBookTest() throws Exception {
+    void createInvalidBookTest() throws Exception {
         String json = new ObjectMapper().writeValueAsString(new BookDTO());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -85,7 +85,7 @@ public class BookControllerTest {
 
     @Test
     @DisplayName("Deve lançar erro ao tentar cadastrar um livro com isbn já utilizado por outro")
-    public void createdBookWithDuplicatedIsbn() throws Exception {
+    void createdBookWithDuplicatedIsbn() throws Exception {
         String message = "Isbn já cadastrado";
         BookDTO book = createBookDTO();
         String json = new ObjectMapper().writeValueAsString(book);
@@ -106,7 +106,7 @@ public class BookControllerTest {
 
     @Test
     @DisplayName("Deve obter informações de um livro")
-    public void getBookDetails() throws Exception {
+    void getBookDetails() throws Exception {
         // cenário (given)
         Long id = 1L;
 
@@ -125,7 +125,7 @@ public class BookControllerTest {
 
     @Test
     @DisplayName("Deve retornar resource not found quando o livro procurado não existir")
-    public void bookNotFound() throws Exception {
+    void bookNotFound() throws Exception {
         // cenário (given)
         BDDMockito.given(service.getById(anyLong())).willReturn(Optional.empty());
 
