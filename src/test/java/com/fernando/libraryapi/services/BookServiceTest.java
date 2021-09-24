@@ -9,15 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -29,7 +28,7 @@ class BookServiceTest {
     BookRepository repository;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         this.service = new BookServiceImpl(repository);
     }
 
@@ -65,6 +64,45 @@ class BookServiceTest {
         // Assert
         assertThat(exception).isInstanceOf(BusinessException.class).hasMessage("Isbn já cadastrado");
         verify(repository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Deve obter um livro por Id")
+    public void getByIdtest() {
+        // Arrange
+        Long id = 1l;
+
+        Book book = createValidBook();
+        book.setId(id);
+
+        when(repository.findById(id)).thenReturn(Optional.of(book));
+
+        // ACT
+        Optional<Book> foundBook = service.getById(id);
+
+        // Assert
+        assertThat(foundBook.isPresent()).isTrue();
+        assertThat(foundBook.get().getId()).isEqualTo(id);
+        assertThat(foundBook.get().getAuthor()).isEqualTo(book.getAuthor());
+        assertThat(foundBook.get().getIsbn()).isEqualTo(book.getIsbn());
+        assertThat(foundBook.get().getTitle()).isEqualTo(book.getTitle());
+        verify(repository, times(1)).findById(anyLong());
+    }
+
+    @Test
+    @DisplayName("Deve obter um livro por Id")
+    public void getBookNotFoundByIdtest() {
+        // Arrange
+        Long id = 1l;
+
+        when(repository.findById(id)).thenReturn(Optional.empty());
+
+        // ACT
+        Optional<Book> foundBook = service.getById(id);
+
+        // Assert
+        assertThat(foundBook.isPresent()).isFalse();
+        verify(repository, times(1)).findById(anyLong());
     }
 
     private Book createValidBook() {
