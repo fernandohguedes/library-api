@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
@@ -104,6 +105,34 @@ class BookServiceTest {
         assertThat(foundBook.isPresent()).isFalse();
         verify(repository, times(1)).findById(anyLong());
     }
+
+    @Test
+    @DisplayName("Deve deletar um livro")
+    public void deleteBookTest() {
+        // Arrange
+        Book book = Book.builder().id(1L).build();
+
+        // ACT
+        assertDoesNotThrow(() -> service.delete(book));
+
+        // Assert
+        verify(repository, times(1)).delete(any());
+    }
+
+    @Test
+    @DisplayName("Deve deletar lançar exception IllegalArgumentException quando o livro estiver nulo")
+    public void deleteBookInvalidBooTest() {
+        // Assert
+        Book book = null;
+
+        // ACT
+        Throwable exception = Assertions.catchThrowable(() -> service.delete(book));
+
+        // Assert
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class).hasMessage("Book id cant be null");
+        verify(repository, never()).delete(any());
+    }
+
 
     private Book createValidBook() {
         return Book.builder().author("Fulano").title("Aprenda Spring").isbn("0001").build();
