@@ -68,6 +68,35 @@ import static org.assertj.core.api.Assertions.assertThat;
         assertThat(foundBook.isPresent()).isTrue();
     }
 
+    @Test
+    @DisplayName("Deve salvar um livro")
+    public void saveBookTest() {
+        // Arrange
+        Book book = createNewBook("123");
+
+        // Act
+        Book savedBook = repository.save(book);
+
+        // Assert
+        assertThat(savedBook.getId()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Deve deletar um livro")
+    public void deleteBookTest() {
+        // Arrange / cenário
+        Book book = createNewBook("123");
+        entityManager.persist(book);
+        Book foundBook = entityManager.find(Book.class, book.getId());
+
+        // Act / ação
+        repository.delete(foundBook);
+        Book deleteBook = entityManager.find(Book.class, book.getId());
+
+        // Assert / verificação
+        assertThat(deleteBook).isNull();
+    }
+
     private Book createNewBook(String isbn) {
         return Book.builder().author("Fulano").title("Aprenda Spring").isbn(isbn).build();
     }

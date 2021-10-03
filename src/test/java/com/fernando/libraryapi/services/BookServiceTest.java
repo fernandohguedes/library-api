@@ -120,9 +120,9 @@ class BookServiceTest {
     }
 
     @Test
-    @DisplayName("Deve deletar lançar exception IllegalArgumentException quando o livro estiver nulo")
-    public void deleteBookInvalidBooTest() {
-        // Assert
+    @DisplayName("Deve lançar exception IllegalArgumentException quando o livro estiver nulo")
+    public void deleteInvalidBookTest() {
+        // Arrange
         Book book = null;
 
         // ACT
@@ -133,6 +133,41 @@ class BookServiceTest {
         verify(repository, never()).delete(any());
     }
 
+    @Test
+    @DisplayName("Deve lançar exception IllegalArgumentException quando o livro estiver nulo")
+    public void updateInvalidBookTest() {
+        // Arrange
+        Book book = null;
+
+        // ACT
+        Throwable exception = Assertions.catchThrowable(() -> service.update(book));
+
+        // Assert
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class).hasMessage("Book id cant be null");
+        verify(repository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um livro")
+    public void updateBookTest() {
+        // Arrange
+        long id = 1L;
+        Book updatingBook = Book.builder().id(id).build();
+        Book updatedBook = createValidBook();
+        updatedBook.setId(id);
+        when(repository.save(updatingBook)).thenReturn(updatedBook);
+
+        // ACT
+        Book book = service.update(updatingBook);
+
+        // Assert
+        assertThat(book).isNotNull();
+        assertThat(book.getId()).isEqualTo(1L);
+        assertThat(book.getTitle()).isEqualTo("Aprenda Spring");
+        assertThat(book.getAuthor()).isEqualTo("Fulano");
+        assertThat(book.getIsbn()).isEqualTo("0001");
+
+    }
 
     private Book createValidBook() {
         return Book.builder().author("Fulano").title("Aprenda Spring").isbn("0001").build();
